@@ -128,14 +128,15 @@ def login():
             return False 
 
 if __name__ == "__main__":
-    sessions = Server.get_current()._session_info_by_id
-
-    session_id_key = list(sessions.keys())[0]
-    session = sessions[session_id_key]
-    urlPara = session.ws.request.connection.params.urlpara
-    if urlPara['login']=='success':
-        main()
-    else:
-        if login():
-            caption = '点击 ' +  '[进入系统](http://localhost:8501/?login=success)'
-            st.markdown(caption.encode('utf-8').decode('utf-8'))     
+    """sessions = Server.get_current()._session_info_by_id
+              
+                  session_id_key = list(sessions.keys())[0]
+                  session = sessions[session_id_key]
+                  urlPara = session.ws.request.connection.params.urlpara
+                  if urlPara['login']=='success':
+                      main()
+                  else:
+                      if login():
+                          caption = '点击 ' +  '[进入系统](http://localhost:8501/?login=success)'
+                          st.markdown(caption.encode('utf-8').decode('utf-8'))   """
+    main()  
