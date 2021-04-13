@@ -15,7 +15,8 @@
 
 # This demo lets you to explore the Udacity self-driving car image dataset.
 # More info: https://github.com/streamlit/demo-self-driving
-
+import os 
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import streamlit as st
 import altair as alt
 import pandas as pd
@@ -44,7 +45,6 @@ def run_the_app():
     st.sidebar.markdown("### 第一步：上传本地的一段心音音频文件(wav)")
     uploaded_file = st.sidebar.file_uploader(" ")
     
-    #confidence_threshold, overlap_threshold = object_detector_ui()
     left_column,middle_column, right_column = st.sidebar.beta_columns(3)
     
     if middle_column.button('诊断'):
@@ -54,7 +54,7 @@ def run_the_app():
 
         st.markdown('---')
         st.markdown('## 音频数据可视化:')
-        sig, sr = librosa.load(uploaded_file, sr=1000, offset=0.0, duration=None)
+        sig, sr = librosa.load(audio_bytes, sr=1000, offset=0.0, duration=None)
 
         st.markdown('---')
         st.markdown('### 原始音频数据波形图:')
@@ -128,15 +128,4 @@ def login():
             return False 
 
 if __name__ == "__main__":
-    """sessions = Server.get_current()._session_info_by_id
-              
-                  session_id_key = list(sessions.keys())[0]
-                  session = sessions[session_id_key]
-                  urlPara = session.ws.request.connection.params.urlpara
-                  if urlPara['login']=='success':
-                      main()
-                  else:
-                      if login():
-                          caption = '点击 ' +  '[进入系统](http://localhost:8501/?login=success)'
-                          st.markdown(caption.encode('utf-8').decode('utf-8'))   """
     main()  
