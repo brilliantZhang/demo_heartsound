@@ -119,15 +119,15 @@ def login():
     name = st.text_input('用户名', '')
     pawd = st.text_input('密码', '')
     
-    if name=='admin' and pawd=='admin':
-        st.success('登录成功!')
-        return True
-    else:
-        st.error('用户名或密码错误')
-        return False 
+    if st.button('登录'):
+        if name=='admin' and pawd=='admin':
+            st.success('登录成功!')
+            return True
+        else:
+            st.error('用户名或密码错误')
+            return False 
 
 if __name__ == "__main__":
-    file_path = 'yolov3.weights'
     sessions = Server.get_current()._session_info_by_id
 
     session_id_key = list(sessions.keys())[0]

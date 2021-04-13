@@ -1,3 +1,5 @@
+import os 
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import tensorflow.keras as keras
 class SeNetBlock(object):
     def __init__(self,reduction=4):
