@@ -54,7 +54,7 @@ def run_the_app():
        
         st.markdown('---')
         st.markdown('## 音频数据可视化:')
-        sig, sr = librosa.load(uploaded_file.read(), sr=1000, offset=0.0, duration=None)
+        sig, sr = librosa.load(audio_bytes, sr=1000, offset=0.0, duration=None)
 
         st.markdown('---')
         st.markdown('### 原始音频数据波形图:')
