@@ -38,20 +38,27 @@ def load_local_audio(uploaded_file):
     image = BytesIO(bytes_data)
     return image
 
-# 目标检测
-# This is the main app app itself, which appears when the user selects "Run the app".
+
 def run_the_app():
-    # 自己文件上传  -   单文件载入
-    st.sidebar.markdown("### 第一步：上传本地的一段心音音频文件(wav)")
-    uploaded_file = st.sidebar.file_uploader(" ")
+    st.sidebar.markdown("### 第一步：选择样例文件或上传本地的心音音频文件(wav)")
     
+    choice = st.sidebar.selectbox('选择使用服务端样例音频文件或上传本地文件', ["样例1","样例2","本地上传"])
+    if choice=="本地上传":
+        file = st.sidebar.file_uploader(" ")
+    elif choice=="样例1":
+        st.audio('a0009.wav', format='audio/wav')
+        audio_bytes = 'a0009.wav'
+    else:
+        st.audio('a0010.wav', format='audio/wav')
+        audio_bytes = 'a0010.wav'
+
+    st.sidebar.markdown("### 第二步：点击诊断查看结果")
     left_column,middle_column, right_column = st.sidebar.beta_columns(3)
     
     if middle_column.button('诊断'):
-        audio_bytes = load_local_audio(uploaded_file)
-        st.write('Play temporary .wav file:')
-        st.audio(audio_bytes, format='audio/wav')
-       
+        if choice=="本地上传":
+            audio_bytes = load_local_audio(file)
+            st.audio(audio_bytes, format='audio/wav')
         st.markdown('---')
         st.markdown('## 音频数据可视化:')
         sig, sr = librosa.load(audio_bytes, sr=1000, offset=0.0, duration=None)
@@ -93,7 +100,7 @@ def main():
     # Render the readme as markdown using st.markdown.
     image = Image.open('./images/icon.jpg')
     st.image(image,use_column_width=False)
-    readme_text = st.markdown(read_markdown("instructions_yolov3.md"))
+    readme_text = st.markdown(read_markdown("instructions.md"))
 
     # Once we have the dependencies, add a selector for the app mode on the sidebar.
     #st.sidebar.title("图像检测参数调节器")   # 侧边栏
@@ -110,7 +117,7 @@ def main():
     # 展示栏目二
     elif app_mode == "Show the source code":
         readme_text.empty()     # 刷新页面
-        st.code(read_markdown("streamlit_app_yolov3.py"))
+        st.code(read_markdown("streamlit_app.py"))
 
 def login():
     image = Image.open('./images/icon.jpg')
