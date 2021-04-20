@@ -8,12 +8,12 @@ from python_speech_features import mfcc
 from scipy import signal
 
 def getMFCCMap(y, sr=1000):
-    mfcc0 = mfcc(y, sr, numcep=13)
+    mfcc0 = mfcc(y, sr, numcep=39,nfilt=39)
     mf1 = librosa.feature.delta(mfcc0) #一阶差分
     mf2 = librosa.feature.delta(mfcc0, order=2) #二阶差分
-    mfcc_all=np.hstack((mfcc0,mf1,mf2))
-    mfcc_all=mfcc_all.reshape(1,299,39,1) #合并图谱
-    return mfcc_all
+    mfcc_all=np.vstack((mfcc0,mf1,mf2))
+    mfcc_all=mfcc_all.reshape(1,299,39,3) #合并图谱
+    return mfcc_all 
 
 def get_drop_list():
     drop_list=[]

@@ -46,46 +46,50 @@ def run_the_app():
     if choice=="本地上传":
         file = st.sidebar.file_uploader(" ")
     elif choice=="样例1":
-        st.audio('a0009.wav', format='audio/wav')
-        audio_bytes = 'a0009.wav'
+        st.audio('New_AS_128.wav', format='audio/wav')
+        audio_bytes = 'New_AS_128.wav'
     else:
-        st.audio('a0010.wav', format='audio/wav')
-        audio_bytes = 'a0010.wav'
+        st.audio('New_N_037.wav', format='audio/wav')
+        audio_bytes = 'New_N_037.wav'
+   
 
+   
     st.sidebar.markdown("### 第二步：点击诊断查看结果")
     left_column,middle_column, right_column = st.sidebar.beta_columns(3)
     
     if middle_column.button('诊断'):
         if choice=="本地上传":
             audio_bytes = load_local_audio(file)
-            st.audio(audio_bytes, format='audio/wav')
+            st.audio(audio_bytes, format='audio/ogg')
+
         st.markdown('---')
         st.markdown('## 音频数据可视化:')
-        sig, sr = librosa.load(audio_bytes, sr=1000, offset=0.0, duration=None)
+        raw, sr = librosa.load(audio_bytes, sr=1000, offset=0.0, duration=None)
+
 
         st.markdown('---')
         st.markdown('### 原始音频数据波形图:')
         fig, ax = plt.subplots()
-        ax.plot(sig)
+        ax.plot(raw)
         st.pyplot(fig)
 
         st.markdown('---')
         st.markdown('### 滤波后波形图:')
-        sig = band_pass_filter(sig, 5, 25, 400, 1000)
+        sig = band_pass_filter(raw, 5, 25, 400, 1000)
         fig, ax = plt.subplots()
         ax.plot(sig)
         st.pyplot(fig)
 
         st.markdown('---')
         st.markdown('### 音频二阶谱特征以及MFCC特征图:')
-        bi,mfcc=get_feat(sig)
+        bi,mfcc=get_feat(raw,sig)
 
         st.markdown('---')
         st.markdown('## 诊断结果:')
         if predict(bi,mfcc):
-            st.success('心音正常')
-        else:
             st.error('心音异常')
+        else:
+            st.success('心音正常')
         
 @st.cache(show_spinner=False)
 def read_markdown(path):
