@@ -12,8 +12,6 @@ import tensorflow as tf
 from tensorflow.python.platform import gfile
 from utils import plot
 
-
-
 def get_feat(raw,sig):
     dataset1 = np.zeros((1,256,256,1))
     dataset2 = np.zeros((1,299,39,3))
@@ -74,6 +72,7 @@ def predict(bi,mfcc):
     res = sess.run(ops, feed_dict=feed_dict)[0]
     y = [np.argmax(r) for r in res]
     tmp = [[np.argmax(r),max(r)] for r in res]
+    st.write(tmp)
     for i in range(len(tmp)):
         if tmp[i][0]==1:
             st.write("模型{}预测结果：异常，置信度：{}".format(i+1,tmp[i][1]))
