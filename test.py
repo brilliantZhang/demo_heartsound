@@ -70,16 +70,14 @@ def predict(bi,mfcc):
         feed_dict[sess.graph.get_tensor_by_name('input_{}:0'.format(i+1))]=bi
 
     res = sess.run(ops, feed_dict=feed_dict)
-    st.write(res)
     y = [np.argmax(r) for r in res]
-    st.write(y)
     tmp = [[np.argmax(r),max(r)] for r in res]
-    st.write(tmp)
+    
     for i in range(len(tmp)):
         if tmp[i][0]==1:
-            st.write("模型{}预测结果：异常，置信度：{}".format(i+1,tmp[i][1]))
+            st.write("模型{}预测结果：异常，置信度：{}".format(i+1,max(tmp[i][1])))
         else:
-            st.write("模型{}预测结果：正常，置信度：{}".format(i+1,tmp[i][1]))
+            st.write("模型{}预测结果：正常，置信度：{}".format(i+1,max(tmp[i][1])))
     if sum(y)/len(y)>=0.5:
         return True
     else:
