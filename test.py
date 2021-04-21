@@ -69,8 +69,10 @@ def predict(bi,mfcc):
         feed_dict[sess.graph.get_tensor_by_name('input_{}:0'.format(i))]=mfcc
         feed_dict[sess.graph.get_tensor_by_name('input_{}:0'.format(i+1))]=bi
 
-    res = sess.run(ops, feed_dict=feed_dict)[0]
+    res = sess.run(ops, feed_dict=feed_dict)
+    st.write(tmp)
     y = [np.argmax(r) for r in res]
+    st.write(y)
     tmp = [[np.argmax(r),max(r)] for r in res]
     st.write(tmp)
     for i in range(len(tmp)):
